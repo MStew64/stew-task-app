@@ -1,0 +1,44 @@
+package com.stewm.task.domain.dto;
+
+import com.stewm.task.domain.entity.TaskPriority;
+import com.stewm.task.domain.entity.TaskStatus;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
+
+import java.time.LocalDate;
+
+public record UpdateTaskRequestDTO(
+        @NotBlank(message = ERROR_MESSAGE_TITLE_LENGTH)
+        @Length(max=255, message = ERROR_MESSAGE_TITLE_LENGTH)
+        String title,
+        @Length(max = 1000, message = ERROR_MESSAGE_DESCRIPTION_LENGTH)
+        @Nullable
+        String description,
+        @Nullable
+        @FutureOrPresent(message = ERROR_MESSAGE_DUE_DATE_FUTURE)
+        LocalDate dueDate,
+        @NotNull(message = ERROR_MESSAGE_PRIORITY)
+        TaskPriority priority,
+        @NotNull(message = ERROR_MESSAGE_STATUS )
+        TaskStatus status
+) {
+    private static final String ERROR_MESSAGE_TITLE_LENGTH =
+            " Title must be between 1-255 characters ";
+
+    private static final String ERROR_MESSAGE_DESCRIPTION_LENGTH =
+            " Description must be less than 1000 characters";
+
+    private static final String ERROR_MESSAGE_DUE_DATE_FUTURE =
+            " Due date can not be in the past";
+
+    private static final String ERROR_MESSAGE_PRIORITY =
+            " Priority not nullable";
+
+    private static final String ERROR_MESSAGE_STATUS =
+            " Status not nullable";
+
+
+}
